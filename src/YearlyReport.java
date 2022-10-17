@@ -1,59 +1,53 @@
 import java.util.HashMap;
 
 public class YearlyReport {
+    int yaer;
     HashMap<String, Integer> expenses;
     HashMap<String, Integer> incomes;
 
-    public YearlyReport() {
+    public YearlyReport(int year) {
+        this.yaer = year;
         expenses = new HashMap<>();
         incomes = new HashMap<>();
     }
 
-    public int getMaxMinAverage(String optional) {
-        int max = 9999;
-        int min = -9999;
+    public int getIncomesSum() {
         int sum = 0;
-        int average;
 
-        for (int expense: expenses.values()) {
-            if (expense > max) {
-                max = expense;
-            }
-
-            if (expense < min) {
-                min = expense;
-            }
-
-            sum += expense;
-        }
-
-        for (int income: incomes.values()) {
-            if (income > max) {
-                max = income;
-            }
-
-            if (income < min) {
-                min = income;
-            }
-
+        for (int income : incomes.values()) {
             sum += income;
         }
 
-        average = sum / (expenses.size() + incomes.size());
-
-        switch (optional) {
-            case "max": return max;
-            case "min": return min;
-            case "average": return average;
-            default: return 0;
-        }
+        return sum;
     }
 
-    @Override
-    public String toString() {
-        return "YearlyReport{" +
-                "expenses=" + expenses +
-                ", incomes=" + incomes +
-                '}';
+    public int getExpensesSum() {
+        int sum = 0;
+
+        for (int expense : expenses.values()) {
+            sum += expense;
+        }
+
+        return sum;
+    }
+
+    public int getAverageIncome() {
+        return getIncomesSum() / incomes.size();
+    }
+
+    public int getAverageExpense() {
+        return getExpensesSum() / expenses.size();
+    }
+
+    public int getProfitByMonth(int monthNumber) {
+        return getIncomesByMonth(monthNumber) - getExpensesByMonth(monthNumber);
+    }
+
+    public int getExpensesByMonth(int monthNumber) {
+        return expenses.get("0" + (monthNumber + 1));
+    }
+
+    public int getIncomesByMonth(int monthNumber) {
+        return incomes.get("0" + (monthNumber + 1));
     }
 }

@@ -4,7 +4,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadCSVFileUtil {
+public class ReadUtil {
     public void readAndSaveYearlyReport(String path, YearlyReport object) {
         String stringYearlyReport = readFileContentsOrNull(path);
         String[] lines = stringYearlyReport.split(System.lineSeparator());
@@ -31,7 +31,7 @@ public class ReadCSVFileUtil {
             data.add(Integer.parseInt(lineContents[2]));
             data.add(Integer.parseInt(lineContents[3]));
 
-            if (lineContents[1].equals("false")) {
+            if (lineContents[1].equals("FALSE")) {
                 object.incomes.put(lineContents[0], data);
             } else {
                 object.expenses.put(lineContents[0], data);
