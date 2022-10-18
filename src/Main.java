@@ -7,6 +7,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ReadUtil readUtil = new ReadUtil();
         PrintUtil printUtil = new PrintUtil();
+        Logic logic = new Logic();
 
         List<MonthlyReport> monthlyReports = new ArrayList<>();
         YearlyReport yearlyReport = new YearlyReport(2021);
@@ -20,44 +21,42 @@ public class Main {
 
             switch (command) {
                 case 1: {
-                    for (int i = 0; i < 3; i++) {
-                        monthlyReports.add(new MonthlyReport(i + 1));
-                        readUtil.readAndSaveMonthlyReport("resources/m.20210" + (i + 1)
-                                + ".csv", monthlyReports.get(i));
-                    }
-
+                    readUtil.readAndSaveMonthlyReports(monthlyReports);
                     System.out.println("Месячные отчёты посчитаны");
                     monthlyReportsIsRead = true;
                     break;
                 }
 
                 case 2: {
-                    readUtil.readAndSaveYearlyReport("resources/y.2021.csv", yearlyReport);
+                    readUtil.readAndSaveYearlyReport("resources/y." + yearlyReport.yaer + ".csv", yearlyReport);
                     System.out.println("Годовой отчёт посчитан");
                     yearlyReportsIsRead = true;
                     break;
                 }
 
                 case 3: {
-                    if (yearlyReportsIsRead && monthlyReportsIsRead) {
-                        printUtil.printDataReconciliation(monthlyReports, yearlyReport);
-                    } else {
-                        System.out.println("Для сверки отчётов необходимо для начала считать их (команды 1 и 2)");
+                    if (logic.isFilesRead(monthlyReportsIsRead, yearlyReportsIsRead)) {
+                        logic.printDataReconciliation(monthlyReports, yearlyReport);
                     }
 
                     break;
                 }
 
                 case 4: {
-                    for (MonthlyReport month : monthlyReports) {
-                        printUtil.printMonthlyReportInformation(month);
+                    if (logic.isFilesRead(monthlyReportsIsRead, yearlyReportsIsRead)) {
+                        for (MonthlyReport month : monthlyReports) {
+                            month.printMonthlyReportInformation();
+                        }
                     }
 
                     break;
                 }
 
                 case 5: {
-                    printUtil.printYearlyReportInformation(yearlyReport);
+                    if (logic.isFilesRead(monthlyReportsIsRead, yearlyReportsIsRead)) {
+                        yearlyReport.printYearlyReportInformation();
+                    }
+
                     break;
                 }
 

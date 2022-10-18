@@ -1,73 +1,75 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MonthlyReport {
     int monthNumber;
+    List<MonthIncomesAndExpenses> incomesAndExpenses = new ArrayList<>();
     String[] monthsNames = {
             "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
             "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
     };
 
-    HashMap<String, List<Integer>> expenses;
-    HashMap<String, List<Integer>> incomes;
-
-    public String getMostProfitablePosition() {
-        int maxProfit = 0;
-        String position = "";
-
-        for (String key : incomes.keySet()) {
-            int profit = incomes.get(key).get(0) * incomes.get(key).get(1);
-            if (profit > maxProfit) {
-                maxProfit = profit;
-                position = key;
-            }
-        }
-
-        return position;
-    }
-
-    public String getBiggestExpense() {
-        int maxExpense = 0;
-        String position = "";
-
-        for (String key : expenses.keySet()) {
-            int expense = expenses.get(key).get(0) * expenses.get(key).get(1);
-            if (expense > maxExpense) {
-                maxExpense = expense;
-                position = key;
-            }
-        }
-
-        return position + " (" + maxExpense + ")";
-    }
-
     public MonthlyReport(int monthNumber) {
         this.monthNumber = monthNumber;
-        expenses = new HashMap<>();
-        incomes = new HashMap<>();
+    }
+
+    public void printMonthlyReportInformation() {
+        System.out.println("Месяц " + this.getMonthName());
+        System.out.println("Самый прибыльный товар - " + this.getMostProfitablePositionOrBiggestExpense(1));
+        System.out.println("Самая большая трата - " + this.getMostProfitablePositionOrBiggestExpense(2));
+    }
+
+    public String getMostProfitablePositionOrBiggestExpense(int mode) {
+        String incomePosition = "";
+        String expensePosition = "";
+        int maxIncome = 0;
+        int maxExpense = 0;
+
+        for (MonthIncomesAndExpenses month : incomesAndExpenses) {
+            if (month.is_expense) {
+                int expense = month.quantity * month.sum_of_one;
+
+                if (expense > maxExpense) {
+                    maxExpense = expense;
+                    expensePosition = month.item_name;
+                }
+            } else {
+                int income = month.quantity * month.sum_of_one;
+
+                if (income > maxIncome) {
+                    maxIncome = income;
+                    incomePosition = month.item_name;
+                }
+            }
+        }
+
+        if (mode == 1) {
+            return incomePosition;
+        } else {
+            return expensePosition;
+        }
     }
 
     public String getMonthName() {
         return monthsNames[monthNumber];
     }
 
-    public int calculateAllIncomes() {
+    public int calculateAllIncomesOrExpenses(int mode) {
         int incomesSum = 0;
-
-        for (List<Integer> list : incomes.values()) {
-            incomesSum += list.get(0) * list.get(1);
-        }
-
-        return incomesSum;
-    }
-
-    public int calculateAllExpenses() {
         int expenseSum = 0;
 
-        for (List<Integer> list : expenses.values()) {
-            expenseSum += list.get(0) * list.get(1);
+        for (MonthIncomesAndExpenses month : incomesAndExpenses) {
+            if (!month.is_expense) {
+                incomesSum += month.quantity * month.sum_of_one;
+            } else {
+                expenseSum += month.quantity * month.sum_of_one;
+            }
         }
 
-        return expenseSum;
+        if (mode == 1) {
+            return incomesSum;
+        } else {
+            return expenseSum;
+        }
     }
 }
