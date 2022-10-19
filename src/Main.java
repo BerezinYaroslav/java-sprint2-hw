@@ -6,8 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ReadUtil readUtil = new ReadUtil();
-        PrintUtil printUtil = new PrintUtil();
-        Logic logic = new Logic();
+        ReportLogic reportLogic = new ReportLogic();
 
         List<MonthlyReport> monthlyReports = new ArrayList<>();
         YearlyReport yearlyReport = new YearlyReport(2021);
@@ -16,34 +15,34 @@ public class Main {
         boolean yearlyReportsIsRead = false;
 
         while (true) {
-            printUtil.printMenu();
+            printMenu();
             int command = scanner.nextByte();
 
             switch (command) {
                 case 1: {
                     readUtil.readAndSaveMonthlyReports(monthlyReports);
-                    System.out.println("Месячные отчёты посчитаны");
+                    System.out.println("Месячные отчёты считаны");
                     monthlyReportsIsRead = true;
                     break;
                 }
 
                 case 2: {
                     readUtil.readAndSaveYearlyReport("resources/y." + yearlyReport.yaer + ".csv", yearlyReport);
-                    System.out.println("Годовой отчёт посчитан");
+                    System.out.println("Годовой отчёт считан");
                     yearlyReportsIsRead = true;
                     break;
                 }
 
                 case 3: {
-                    if (logic.isFilesRead(monthlyReportsIsRead, yearlyReportsIsRead)) {
-                        logic.printDataReconciliation(monthlyReports, yearlyReport);
+                    if (reportLogic.isFilesRead(monthlyReportsIsRead, yearlyReportsIsRead)) {
+                        reportLogic.printDataReconciliation(monthlyReports, yearlyReport);
                     }
 
                     break;
                 }
 
                 case 4: {
-                    if (logic.isFilesRead(monthlyReportsIsRead, yearlyReportsIsRead)) {
+                    if (reportLogic.isMonthlyFilesRead(monthlyReportsIsRead)) {
                         for (MonthlyReport month : monthlyReports) {
                             month.printMonthlyReportInformation();
                         }
@@ -53,7 +52,7 @@ public class Main {
                 }
 
                 case 5: {
-                    if (logic.isFilesRead(monthlyReportsIsRead, yearlyReportsIsRead)) {
+                    if (reportLogic.isYearlyFilesRead(yearlyReportsIsRead)) {
                         yearlyReport.printYearlyReportInformation();
                     }
 
@@ -70,5 +69,14 @@ public class Main {
             }
         }
     }
-}
 
+    public static void printMenu() {
+        System.out.println("Что вы хотите сделать?");
+        System.out.println("1 - Считать все месячные отчёты");
+        System.out.println("2 - Считать годовой отчёт");
+        System.out.println("3 - Сверить отчёты");
+        System.out.println("4 - Вывести информацию о всех месячных отчётах");
+        System.out.println("5 - Вывести информацию о годовом отчёте");
+        System.out.println("111 - Выйти");
+    }
+}

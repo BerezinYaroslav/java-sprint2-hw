@@ -19,57 +19,39 @@ public class MonthlyReport {
         System.out.println("Самая большая трата - " + this.getMostProfitablePositionOrBiggestExpense(2));
     }
 
-    public String getMostProfitablePositionOrBiggestExpense(int mode) {
-        String incomePosition = "";
-        String expensePosition = "";
-        int maxIncome = 0;
-        int maxExpense = 0;
+    public String getMostProfitablePositionOrBiggestExpense(int modeIncomeOrExpanse) {
+        String position = "";
+        int maxSum = 0;
+        boolean isExpense = (modeIncomeOrExpanse != 1);
 
         for (MonthIncomesAndExpenses month : incomesAndExpenses) {
-            if (month.is_expense) {
-                int expense = month.quantity * month.sum_of_one;
+            if (month.isExpense == isExpense) {
+                int sum = month.quantity * month.sumOfOne;
 
-                if (expense > maxExpense) {
-                    maxExpense = expense;
-                    expensePosition = month.item_name;
-                }
-            } else {
-                int income = month.quantity * month.sum_of_one;
-
-                if (income > maxIncome) {
-                    maxIncome = income;
-                    incomePosition = month.item_name;
+                if (sum > maxSum) {
+                    maxSum = sum;
+                    position = month.itemName;
                 }
             }
         }
 
-        if (mode == 1) {
-            return incomePosition;
-        } else {
-            return expensePosition;
-        }
+        return position;
     }
 
     public String getMonthName() {
         return monthsNames[monthNumber];
     }
 
-    public int calculateAllIncomesOrExpenses(int mode) {
-        int incomesSum = 0;
-        int expenseSum = 0;
+    public int calculateAllIncomesOrExpenses(int modeIncomeOrExpanse) {
+        int sum = 0;
+        boolean isExpense = (modeIncomeOrExpanse != 1);
 
         for (MonthIncomesAndExpenses month : incomesAndExpenses) {
-            if (!month.is_expense) {
-                incomesSum += month.quantity * month.sum_of_one;
-            } else {
-                expenseSum += month.quantity * month.sum_of_one;
+            if (month.isExpense == isExpense) {
+                sum += month.quantity * month.sumOfOne;
             }
         }
 
-        if (mode == 1) {
-            return incomesSum;
-        } else {
-            return expenseSum;
-        }
+        return sum;
     }
 }

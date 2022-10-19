@@ -4,20 +4,20 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class ReadUtil {
-    Logic logic = new Logic();
+    ReportLogic reportLogic = new ReportLogic();
 
     public void readAndSaveMonthlyReports(List<MonthlyReport> monthlyReports) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             String path;
 
-            if (i > 8) {
-                path = "resources/m.2021" + (i + 1) + ".csv";
+            if (i > 9) {
+                path = "resources/m.2021" + i + ".csv";
             } else {
-                path = "resources/m.20210" + (i + 1) + ".csv";
+                path = "resources/m.20210" + i + ".csv";
             }
 
-            monthlyReports.add(new MonthlyReport(i + 1));
-            readAndSaveMonthlyReport(path, monthlyReports.get(i));
+            monthlyReports.add(new MonthlyReport(i));
+            readAndSaveMonthlyReport(path, monthlyReports.get(i - 1));
         }
     }
 

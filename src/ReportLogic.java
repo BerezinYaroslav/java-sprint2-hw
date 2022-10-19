@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class Logic {
+public class ReportLogic {
     public void printDataReconciliation(List<MonthlyReport> monthlyReports, YearlyReport yearlyReport) {
         boolean allIsRight = true;
         System.out.println("Сверка отчётов:");
@@ -25,9 +25,28 @@ public class Logic {
     public boolean isFilesRead(boolean monthlyReportsIsRead, boolean yearlyReportsIsRead) {
         if (monthlyReportsIsRead && yearlyReportsIsRead) {
             return true;
-        }  else {
-            System.out.println("Для сверки отчётов необходимо для начала считать их (команды 1 и 2)");
+        } else {
+            System.out.println("Ошибка: для сверки отчётов необходимо для начала считать их (команды 1 и 2)");
             return false;
         }
     }
+
+    public boolean isMonthlyFilesRead(boolean monthlyReportsIsRead) {
+        if (monthlyReportsIsRead) {
+            return true;
+        } else {
+            System.out.println("Ошибка: необходимо для начала считать месячные отчёты");
+            return false;
+        }
+    }
+
+    public boolean isYearlyFilesRead(boolean yearlyReportsIsRead) {
+        if (yearlyReportsIsRead) {
+            return true;
+        } else {
+            System.out.println("Ошибка: необходимо для начала считать годовой отчёт");
+            return false;
+        }
+    }
+
 }

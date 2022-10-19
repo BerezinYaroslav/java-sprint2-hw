@@ -23,11 +23,11 @@ public class YearlyReport {
         System.out.println("Средний доход за все месяцы - " + this.getAverageIncomeOrExpense(1));
     }
 
-    public int getIncomesOrExpenseSum(int mode) {
+    public int getIncomesOrExpenseSum(int modeIncomeOrExpanse) {
         int sum = 0;
         HashMap<String, Integer> hashMap;
 
-        if (mode == 1) {
+        if (modeIncomeOrExpanse == 1) {
             hashMap = incomes;
         } else {
             hashMap = expenses;
@@ -40,16 +40,16 @@ public class YearlyReport {
         return sum;
     }
 
-    public int getAverageIncomeOrExpense(int mode) {
-        return getIncomesOrExpenseSum(mode) / incomes.size();
+    public int getAverageIncomeOrExpense(int modeIncomeOrExpanse) {
+        return getIncomesOrExpenseSum(modeIncomeOrExpanse) / incomes.size();
     }
 
     public int getProfitByMonth(int monthNumber) {
         return getExpensesOrIncomeByMonth(monthNumber, 1) - getExpensesOrIncomeByMonth(monthNumber, 2);
     }
 
-    public int getExpensesOrIncomeByMonth(int monthNumber, int mode) {
-        if (mode == 1) {
+    public int getExpensesOrIncomeByMonth(int monthNumber, int modeIncomeOrExpanse) {
+        if (modeIncomeOrExpanse == 1) {
             return incomes.get("0" + (monthNumber + 1));
         } else {
             return expenses.get("0" + (monthNumber + 1));

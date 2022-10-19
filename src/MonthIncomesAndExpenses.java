@@ -1,13 +1,13 @@
 public class MonthIncomesAndExpenses {
-    String item_name;
-    boolean is_expense;
+    String itemName;
+    boolean isExpense;
     int quantity;
-    int sum_of_one;
+    int sumOfOne;
 
-    public MonthIncomesAndExpenses(String item_name, boolean is_expense, int quantity, int sum_of_one) {
-        this.item_name = item_name;
-        this.is_expense = is_expense;
+    public MonthIncomesAndExpenses(String itemName, boolean isExpense, int quantity, int sumOfOne) {
+        this.itemName = itemName;
+        this.isExpense = isExpense;
         this.quantity = quantity;
-        this.sum_of_one = sum_of_one;
+        this.sumOfOne = sumOfOne;
     }
 }
